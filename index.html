@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tengo una pregunta...</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7f9fa; /* Un fondo un poco más sobrio */
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      max-width: 450px;
+      width: 90%;
+      min-height: 400px;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.4s ease-in-out forwards;
+    }
+
+    .card.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      color: #2c3e50;
+      font-size: 22px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    img {
+      max-width: 180px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+    }
+
+    .btn-container {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      width: 100%;
+      position: relative;
+      min-height: 50px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 15px;
+      font-weight: 500;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-next {
+      background-color: #34495e;
+      color: white;
+      width: 100%;
+    }
+
+    .btn-next:hover {
+      background-color: #2c3e50;
+    }
+
+    .btn-si {
+      background-color: #34495e;
+      color: white;
+    }
+
+    .btn-no {
+      background-color: #e0e4e8;
+      color: #555;
+      position: absolute;
+    }
+
+    .food-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .food-option {
+      background: #f1f3f5;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .food-option:hover {
+      background: #e9ecef;
+    }
+
+    .food-option.selected {
+      border-color: #34495e;
+      background: #e9ecef;
+      font-weight: 600;
+    }
+
+    .form-group {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #2c3e50;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ced4da;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      background-color: #f8f9fa;
+    }
+
+    input:focus, select:focus {
+      border-color: #34495e;
+    }
+
+    .ps-text {
+      font-size: 12px;
+      color: #888;
+      margin-top: 20px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="screen1" class="card active">
+    <h1>¿Salimos a tomar o comer algo?</h1>
+    <img src="https://media.tenor.com/8QeJ8k8N3aIAAAAi/cat-cute.gif" alt="Gatito">
+    <div class="btn-container" id="container-propuesta">
+      <button id="btn-si" class="btn-si" onclick="nextScreen(2)">Dale, de una</button>
+      <button id="btn-no" class="btn-no">Na, paso</button>
+    </div>
+  </div>
+
+  <div id="screen2" class="card">
+    <h1>Epa... ¿posta le diste que sí? jajaja</h1>
+    <img src="https://media.tenor.com/2m66O2SHe30AAAAi/spongebob-squarepants-spongebob.gif" alt="Bob Esponja">
+    <p>Te soy sincero, no tenía pensado qué hacer si aceptabas tan rápido.</p>
+    <button class="btn-next" onclick="nextScreen(3)">Seguir 👉</button>
+  </div>
+
+  <div id="screen3" class="card">
+    <h1>Bueno... ¿cuándo estás libre?</h1>
+    <img src="https://media.tenor.com/6_gKstC_g9IAAAAi/mochi-peach.gif" alt="Calendario">
+    
+    <div class="form-group">
+      <label for="date-picker">Día:</label>
+      <input type="date" id="date-picker">
+    </div>
+
+    <div class="form-group">
+      <label for="time-picker">Horario:</label>
+      <select id="time-picker">
+        <option value="17:00">17:00 - Unos mates o café tranqui</option>
+        <option value="20:00" selected>20:00 - Unas pintas / cena temprana</option>
+        <option value="21:30">21:30 - Directo a cenar</option>
+      </select>
+    </div>
+
+    <button class="btn-next" onclick="saveDateTime()">Fijar fecha</button>
+  </div>
+
+  <div id="screen4" class="card">
+    <h1>¿Qué pinta comer?</h1>
+    <p>Elegí:</p>
+    
+    <div class="food-grid">
+      <div class="food-option" onclick="selectFood(this, 'Pizza')">🍕 Pizza</div>
+      <div class="food-option" onclick="selectFood(this, 'Sushi')">🍣 Sushi</div>
+      <div class="food-option" onclick="selectFood(this, 'Hamburguesas')">🍔 Burgers</div>
+      <div class="food-option" onclick="selectFood(this, 'Birra y papas')">🍻 Birra y papas</div>
+      <div class="food-option" onclick="selectFood(this, 'Helado')">🍦 Helado</div>
+      <div class="food-option" onclick="selectFood(this, 'Pastas')">🍝 Pastas</div>
+    </div>
+
+    <button class="btn-next" onclick="nextScreen(5)">Confirmar</button>
+  </div>
+
+  <div id="screen5" class="card">
+    <h1>¡Joya entonces!</h1>
+    <img src="https://media.tenor.com/o7_R9x297g0AAAAi/shrek-dance.gif" alt="Shrek">
+    <p id="summary-text">Listo. Paso a buscarte a esa hora. 😎</p>
+    <p class="ps-text">P.D. Esto no es una plantilla armada, te codeé la página yo mismo en un rato libre.</p>
+  </div>
+
+  <script>
+    let selectedDate = "";
+    let selectedTime = "";
+    let selectedFoodOption = "";
+
+    function nextScreen(screenNumber) {
+      document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
+      document.getElementById(`screen${screenNumber}`).classList.add('active');
+    }
+
+    function saveDateTime() {
+      const dateInput = document.getElementById('date-picker').value;
+      const timeInput = document.getElementById('time-picker').value;
+      
+      if(!dateInput) {
+        alert("Elegí un día para seguir.");
+        return;
+      }
+
+      const dateObj = new Date(dateInput + "T00:00:00");
+      selectedDate = dateObj.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+      selectedTime = timeInput;
+
+      nextScreen(4);
+    }
+
+    function selectFood(element, foodName) {
+      document.querySelectorAll('.food-option').forEach(opt => opt.classList.remove('selected'));
+      element.classList.add('selected');
+      selectedFoodOption = foodName;
+      
+      document.getElementById('summary-text').innerHTML = `Agendado para el <strong>${selectedDate}</strong> a las <strong>${selectedTime} hs</strong>.<br><br>Sale: <strong>${selectedFoodOption}</strong>. Nos vemos.`;
+    }
+
+    const btnNo = document.getElementById('btn-no');
+    const container = document.getElementById('container-propuesta');
+
+    btnNo.style.top = "10px";
+    btnNo.style.right = "50px";
+
+    function moverBotonNo() {
+      const padding = 20;
+      const xMax = window.innerWidth - btnNo.offsetWidth - padding;
+      const yMax = window.innerHeight - btnNo.offsetHeight - padding;
+
+      const xAleatorio = Math.max(padding, Math.random() * xMax);
+      const yAleatorio = Math.max(padding, Math.random() * yMax);
+
+      btnNo.style.position = "fixed";
+      btnNo.style.left = `${xAleatorio}px`;
+      btnNo.style.top = `${yAleatorio}px`;
+    }
+
+    btnNo.addEventListener('mouseover', moverBotonNo);
+    btnNo.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      moverBotonNo();
+    });
+  </script>
+</body>
+</html>
